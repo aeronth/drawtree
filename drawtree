@@ -4,7 +4,7 @@ function recurse () {
 	FILES=$(find $1 -mindepth 1 -maxdepth 1 -type f)
 	for b in $FILES
 	do
-		HASH=$(hashdeep $b -l|tail -n 1|sed 's#\(.*\),\(.*\),\(.*\),\(.*\)#\4\\nsize:\1bytes\\nmd5:\2\\nsha256:\3#') 
+		HASH=$(hashdeep $b -l|tail -n 1|sed 's#\(.*\),\(.*\),\(.*\),\(.*\)#<b>\4<\\b>\\nsize:\1 bytes\\nmd5:\2\\nsha256:\3#') 
 		echo $HASH
 		echo "\"$1\" -> \"$HASH\";" >> $DOTFILE
 	done
