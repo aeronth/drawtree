@@ -6,7 +6,7 @@ function recurse () {
 	do
 		HASH=$(hashdeep $b -l|tail -n 1|sed 's#\(.*\),\(.*\),\(.*\),\(.*\)#\4\\n\\nsize: \1 bytes\\nmd5:\2\\nsha256:\3#') 
 		echo $HASH
-		echo "\"$1\" -> \"$HASH\"[fillcolor=lightred1];" >> $DOTFILE
+		echo "\"$1\" -> \"$HASH\"[fillcolor=green];" >> $DOTFILE
 	done
 	for a in $SUBS
 	do
