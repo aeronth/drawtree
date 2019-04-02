@@ -4,9 +4,10 @@ function recurse () {
 	FILES=$(find $1 -mindepth 1 -maxdepth 1 -type f)
 	for b in $FILES
 	do
-		HASH=$(hashdeep $b -l|tail -n 1|sed 's#\(.*\),\(.*\),\(.*\),\(.*\)#\4\\n\\nsize: \1 bytes\\nmd5:\2\\nsha256:\3#') 
+		HASH=$(hashdeep $b -l|tail -n 1|sed 's#\(.*\),\(.*\),\(.*\),\(.*\)#size: \1 bytes\\nmd5:\2\\nsha256:\3\\n\\n\4#') 
 		echo $HASH
-		echo "\"$1\" -> \"$HASH\"[fillcolor=green];" >> $DOTFILE
+		echo "\"$HASH\" [fillcolor=1, shape=note];" >> $DOTFILE
+		echo "\"$1\" -> \"$HASH\";" >> $DOTFILE
 	done
 	for a in $SUBS
 	do
@@ -19,7 +20,8 @@ export IFS=$'\n'
 echo "digraph unix {" > $DOTFILE
 echo "overlap=false;" >> $DOTFILE
 echo "rankdir=LR;" >> $DOTFILE
-echo "node [color=blue, style=filled, fillcolor=lightblue2, shape=box, fontname=Consolas];" >> $DOTFILE
+echo "outputorder=\"edgesfirst\"" >> $DOTFILE
+echo "node [color=blue, style=filled, colorscheme=paired4, fillcolor=3, shape=folder, fontname=Consolas];" >> $DOTFILE
 recurse $1
 echo "}" >> $DOTFILE
 dot -Tpdf $DOTFILE > dot.pdf
